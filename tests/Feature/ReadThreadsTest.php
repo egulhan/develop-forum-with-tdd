@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Reply;
 use App\Thread;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ThreadTest extends TestCase
+class ReadThreadsTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,5 +30,15 @@ class ThreadTest extends TestCase
 
         $this->get(route('threads.show', ['id' => $thread->id]))
             ->assertSeeText($thread->title);
+    }
+
+    /** @test */
+    public function threads_replies_can_be_viewed_on_page()
+    {
+        $thread = factory(Thread::class)->create();
+        $replies = factory(Reply::class)->create(['thread_id' => $thread->id]);
+
+        $this->get(route('threads.show', ['id' => $thread->id]))
+            ->assertSeeText($replies[0]->body);
     }
 }
