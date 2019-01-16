@@ -4,11 +4,13 @@ namespace Tests\Feature;
 
 use App\Reply;
 use App\Thread;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReadThreadsTest extends TestCase
 {
+    use DatabaseMigrations;
     use DatabaseTransactions;
 
     /** @test * */
@@ -36,9 +38,9 @@ class ReadThreadsTest extends TestCase
     public function threads_replies_can_be_viewed_on_page()
     {
         $thread = factory(Thread::class)->create();
-        $replies = factory(Reply::class)->create(['thread_id' => $thread->id]);
+        $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
 
         $this->get(route('threads.show', ['id' => $thread->id]))
-            ->assertSeeText($replies[0]->body);
+            ->assertSeeText($reply->body);
     }
 }
