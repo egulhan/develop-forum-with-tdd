@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
-class ReplyTest extends TestCase
+class ThreadRepliesTest extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 

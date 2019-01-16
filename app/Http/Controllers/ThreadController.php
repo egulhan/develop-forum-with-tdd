@@ -14,7 +14,10 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = Thread::all();
+        $threads = Thread::with(['replies' => function ($query) {
+            // TODO: CONTINUE FROM HERE
+            return $query->orderBy('replies.id', 'desc');
+        }])->get();
         return view('threads.index', compact('threads'));
     }
 
@@ -82,5 +85,13 @@ class ThreadController extends Controller
     public function destroy(Thread $thread)
     {
         //
+    }
+
+    public function reply(Thread $thread, Request $request)
+    {
+        $user = auth()->user();
+        $replyAttributes = ['user_id' => $user->id, 'body' => $request->get('body')];
+        $thread->replies()->save(new \App\Reply($replyAttributes));
+        return response()->redirectTo(route('threads.show', ['id' => $thread->id]));
     }
 }

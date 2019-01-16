@@ -14,6 +14,21 @@
                     @endslot
                 @endcomponent
             </div>
+
+            <div class="col-md-8" style="margin-top:10px;">
+                @component('components.card',['title'=>'Reply'])
+                    <form method="post" action="{{route('threads.reply',['id'=>$thread->id])}}">
+
+                        {{csrf_field()}}
+
+                        <div class="form-group">
+                            <label for="body">Comment</label>
+                            <textarea class="form-control" name="body" id="id" rows="5"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                @endcomponent
+            </div>
         </div>
 
         @foreach($thread->replies as $reply)
