@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 
 class ThreadController extends Controller
@@ -14,10 +15,7 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $threads = Thread::with(['replies' => function ($query) {
-            // TODO: CONTINUE FROM HERE
-            return $query->orderBy('replies.id', 'desc');
-        }])->get();
+        $threads = Thread::all();
         return view('threads.index', compact('threads'));
     }
 
@@ -50,6 +48,10 @@ class ThreadController extends Controller
      */
     public function show(Thread $thread)
     {
+        $thread->load(['replies' => function ($query) {
+            return $query->latest();
+        }]);
+
         return view('threads.show', compact('thread'));
     }
 
@@ -90,6 +92,11 @@ class ThreadController extends Controller
     public function reply(Thread $thread, Request $request)
     {
         $user = auth()->user();
+
+        $request->validate([
+            'body' => 'required|min:5',
+        ]);
+
         $replyAttributes = ['user_id' => $user->id, 'body' => $request->get('body')];
         $thread->replies()->save(new \App\Reply($replyAttributes));
         return response()->redirectTo(route('threads.show', ['id' => $thread->id]));

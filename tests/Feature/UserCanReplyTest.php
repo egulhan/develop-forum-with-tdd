@@ -51,4 +51,38 @@ class UserCanReplyTest extends TestCase
 
         // THEN it should throw authentication exception
     }
+
+    /** @test */
+    public function a_reply_requires_comment()
+    {
+        // GIVEN a thread and auth. user
+        $thread = factory(Thread::class)->create();
+        $user = factory(User::class)->create();
+        $reply = factory(Reply::class)->make([
+            'body' => '',
+        ]);
+
+        // WHEN reply to the thread
+        $response = $this->actingAs($user)
+            ->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes());
+
+        // THEN if comment is empty, returns an error
+        $response->assertSessionHasErrors(['body']);
+    }
+
+    /** @test */
+    public function a_reply_comment_must_contain_at_least_5_characters()
+    {
+        // GIVEN a thread and auth. user
+        $thread = factory(Thread::class)->create();
+        $user = factory(User::class)->create();
+        $reply = factory(Reply::class)->make(['body' => 1]);
+
+        // WHEN reply to the thread
+        $response = $this->actingAs($user)
+            ->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes());
+
+        // THEN get an error for comment field
+        $response->assertSessionHasErrors(['body']);
+    }
 }
