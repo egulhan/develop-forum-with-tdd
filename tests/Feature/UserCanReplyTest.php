@@ -26,7 +26,7 @@ class UserCanReplyTest extends TestCase
 
         // WHEN logged-in user try to reply
         $this->actingAs($replier)
-            ->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes())
+            ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes())
             ->assertRedirect(route('threads.show', ['id' => $thread->id]));
 
         // THEN reply should be on the page
@@ -47,7 +47,7 @@ class UserCanReplyTest extends TestCase
         ]);
 
         // WHEN user try to reply
-        $this->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes());
+        $this->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN it should throw authentication exception
     }
@@ -64,7 +64,7 @@ class UserCanReplyTest extends TestCase
 
         // WHEN reply to the thread
         $response = $this->actingAs($user)
-            ->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes());
+            ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN if comment is empty, returns an error
         $response->assertSessionHasErrors(['body']);
@@ -80,7 +80,7 @@ class UserCanReplyTest extends TestCase
 
         // WHEN reply to the thread
         $response = $this->actingAs($user)
-            ->post(route('threads.reply', ['id' => $thread->id]), $reply->getAttributes());
+            ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN get an error for comment field
         $response->assertSessionHasErrors(['body']);

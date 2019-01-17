@@ -28,7 +28,7 @@
                         </div>
                     @endif
 
-                    <form method="post" action="{{route('threads.reply',['id'=>$thread->id])}}">
+                    <form method="post" action="{{route('replies.store',['id'=>$thread->id])}}">
 
                         {{csrf_field()}}
 
