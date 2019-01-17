@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if (env('APP_ENV') == 'testing') {
+        if (app()->environment() == 'testing') {
             if (!($exception instanceof \Illuminate\Validation\ValidationException)) {
                 throw $exception;
             }
