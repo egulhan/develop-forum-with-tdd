@@ -3,15 +3,10 @@
 namespace Tests\Feature;
 
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Validation\UnauthorizedException;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\BaseTestCase;
 
-class CreateThreads extends TestCase
+class CreateThreads extends BaseTestCase
 {
-    use DatabaseMigrations;
 
     /** @test */
     public function a_guest_user_should_login_to_create_a_thread()
@@ -26,8 +21,8 @@ class CreateThreads extends TestCase
     {
         // GIVEN we have an authenticated user
         // and a thread data
-        $user = factory(\App\User::class)->create();
-        $thread = factory(\App\Thread::class)->create();
+        $user = create(\App\User::class);
+        $thread = create(\App\Thread::class);
 
         $this->actingAs($user);
 

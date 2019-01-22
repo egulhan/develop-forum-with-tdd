@@ -4,15 +4,10 @@ namespace Tests\Feature;
 
 use App\Reply;
 use App\Thread;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BaseTestCase;
 
-class ReadThreadsTest extends TestCase
+class ReadThreadsTest extends BaseTestCase
 {
-    use DatabaseMigrations;
-    use DatabaseTransactions;
-
     /** @test * */
     public function it_can_list_all_threads()
     {

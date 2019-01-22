@@ -6,14 +6,10 @@ use App\Reply;
 use App\Thread;
 use App\User;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
+use Tests\BaseTestCase;
 
-class UserCanReplyTest extends TestCase
+class UserCanReplyTest extends BaseTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /** @test */
     public function an_authenticated_user_should_reply()
     {

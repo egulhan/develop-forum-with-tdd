@@ -3,14 +3,10 @@
 namespace Tests\Unit;
 
 use App\Reply;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
+use Tests\BaseTestCase;
 
-class ThreadRepliesTest extends TestCase
+class ThreadRepliesTest extends BaseTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /** @test * */
     public function it_has_an_owner()
     {

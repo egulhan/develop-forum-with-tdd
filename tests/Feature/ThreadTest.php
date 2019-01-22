@@ -4,14 +4,10 @@ namespace Tests\Feature;
 
 use App\Thread;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
+use Tests\BaseTestCase;
 
-class ThreadTest extends TestCase
+class ThreadTest extends BaseTestCase
 {
-    use DatabaseMigrations, DatabaseTransactions;
-
     /** @test */
     public function a_thread_has_owner()
     {
