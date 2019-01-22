@@ -5,9 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Auth\AuthenticationException;
 use Tests\BaseTestCase;
 
-class CreateThreads extends BaseTestCase
+class CreateThreadsTest extends BaseTestCase
 {
-
     /** @test */
     public function a_guest_user_should_login_to_create_a_thread()
     {
@@ -21,10 +20,8 @@ class CreateThreads extends BaseTestCase
     {
         // GIVEN we have an authenticated user
         // and a thread data
-        $user = create(\App\User::class);
+        $this->signIn();
         $thread = create(\App\Thread::class);
-
-        $this->actingAs($user);
 
         // WHEN we send data to endpoint
         $this->post(route('threads.store'), $thread->toArray());

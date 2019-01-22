@@ -14,14 +14,14 @@ class UserCanReplyTest extends BaseTestCase
     public function an_authenticated_user_should_reply()
     {
         // GIVEN a thread
-        $thread = factory(Thread::class)->create();
-        $replier = factory(User::class)->create();
-        $reply = factory(Reply::class)->make([
+        $thread = create(Thread::class);
+        $replier = create(User::class);
+        $reply = make(Reply::class, [
             'thread_id' => $thread->id,
         ]);
 
         // WHEN logged-in user try to reply
-        $this->actingAs($replier)
+        $this->signIn($replier)
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes())
             ->assertRedirect(route('threads.show', ['id' => $thread->id]));
 
@@ -36,9 +36,9 @@ class UserCanReplyTest extends BaseTestCase
         $this->expectException(AuthenticationException::class);
 
         // GIVEN a thread
-        $thread = factory(Thread::class)->create();
-        $replier = factory(User::class)->create();
-        $reply = factory(Reply::class)->make([
+        $thread = create(Thread::class);
+        $replier = create(User::class);
+        $reply = make(Reply::class, [
             'thread_id' => $thread->id,
         ]);
 
@@ -52,14 +52,14 @@ class UserCanReplyTest extends BaseTestCase
     public function a_reply_requires_comment()
     {
         // GIVEN a thread and auth. user
-        $thread = factory(Thread::class)->create();
-        $user = factory(User::class)->create();
-        $reply = factory(Reply::class)->make([
+        $thread = create(Thread::class);
+        $user = create(User::class);
+        $reply = make(Reply::class, [
             'body' => '',
         ]);
 
         // WHEN reply to the thread
-        $response = $this->actingAs($user)
+        $response = $this->signIn($user)
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN if comment is empty, returns an error
@@ -70,12 +70,12 @@ class UserCanReplyTest extends BaseTestCase
     public function a_reply_comment_must_contain_at_least_5_characters()
     {
         // GIVEN a thread and auth. user
-        $thread = factory(Thread::class)->create();
-        $user = factory(User::class)->create();
-        $reply = factory(Reply::class)->make(['body' => 1]);
+        $thread = create(Thread::class);
+        $user = create(User::class);
+        $reply = make(Reply::class, ['body' => 1]);
 
         // WHEN reply to the thread
-        $response = $this->actingAs($user)
+        $response = $this->signIn($user)
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN get an error for comment field

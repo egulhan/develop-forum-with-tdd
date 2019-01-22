@@ -11,7 +11,7 @@ class ReadThreadsTest extends BaseTestCase
     /** @test * */
     public function it_can_list_all_threads()
     {
-        $thread = factory(Thread::class)->create();
+        $thread = create(Thread::class);
 
         $response = $this->get(route('threads.index'));
 
@@ -23,7 +23,7 @@ class ReadThreadsTest extends BaseTestCase
     /** @test * */
     public function it_can_view_a_single_thread()
     {
-        $thread = factory(Thread::class)->create();
+        $thread = create(Thread::class);
 
         $this->get(route('threads.show', ['id' => $thread->id]))
             ->assertSeeText($thread->title);
@@ -32,8 +32,8 @@ class ReadThreadsTest extends BaseTestCase
     /** @test */
     public function threads_replies_can_be_viewed_on_page()
     {
-        $thread = factory(Thread::class)->create();
-        $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
+        $thread = create(Thread::class);
+        $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
         $this->get(route('threads.show', ['id' => $thread->id]))
             ->assertSeeText($reply->body);

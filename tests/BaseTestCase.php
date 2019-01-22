@@ -14,4 +14,11 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class BaseTestCase extends TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
+
+    protected function signIn($user = null)
+    {
+        $user = $user ?: create(\App\User::class);
+        $this->actingAs($user);
+        return $this;
+    }
 }
