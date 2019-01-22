@@ -60,6 +60,7 @@ class UserCanReplyTest extends BaseTestCase
 
         // WHEN reply to the thread
         $response = $this->signIn($user)
+            ->withExceptionHandling()
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN if comment is empty, returns an error
@@ -76,6 +77,7 @@ class UserCanReplyTest extends BaseTestCase
 
         // WHEN reply to the thread
         $response = $this->signIn($user)
+            ->withExceptionHandling()
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes());
 
         // THEN get an error for comment field
