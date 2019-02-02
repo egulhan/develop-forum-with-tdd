@@ -27,7 +27,7 @@ class CreateThreadsTest extends BaseTestCase
         $this->post(route('threads.store'), $thread->toArray());
 
         // THEN we visit to thread view page
-        $this->get(route('threads.show', ['id' => $thread->id]))
+        $this->get($thread->path())
             // we should see thread body
             ->assertSeeText($thread->body);
     }

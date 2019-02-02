@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Thread;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
@@ -49,20 +50,22 @@ class ThreadsController extends Controller
 
         $thread = Thread::create([
             'user_id' => auth()->user()->id,
+            'channel_id' => $request->get('channel_id'),
             'title' => $request->get('title'),
             'body' => $request->get('body'),
         ]);
 
-        return redirect(route('threads.show', ['id' => $thread->id]));
+        return redirect($thread->path());
     }
 
     /**
      * Display the specified resource.
      *
+     * @param $channelId
      * @param  \App\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($channelId, Thread $thread)
     {
         $thread->load(['replies' => function ($query) {
             return $query->latest();

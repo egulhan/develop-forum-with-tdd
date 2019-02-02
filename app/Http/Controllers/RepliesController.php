@@ -23,6 +23,6 @@ class RepliesController extends Controller
             'body' => $request->get('body'),
         ]);
 
-        return response()->redirectTo(route('threads.show', ['id' => $thread]));
+        return response()->redirectTo($thread->path());
     }
 }

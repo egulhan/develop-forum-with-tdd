@@ -23,10 +23,10 @@ class UserCanReplyTest extends BaseTestCase
         // WHEN logged-in user try to reply
         $this->signIn($replier)
             ->post(route('replies.store', ['id' => $thread->id]), $reply->getAttributes())
-            ->assertRedirect(route('threads.show', ['id' => $thread->id]));
+            ->assertRedirect($thread->path());
 
         // THEN reply should be on the page
-        $this->get(route('threads.show', ['id' => $thread->id]))
+        $this->get($thread->path())
             ->assertSee($reply->body);
     }
 

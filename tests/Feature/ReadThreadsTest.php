@@ -25,7 +25,7 @@ class ReadThreadsTest extends BaseTestCase
     {
         $thread = create(Thread::class);
 
-        $this->get(route('threads.show', ['id' => $thread->id]))
+        $this->get($thread->path())
             ->assertSeeText($thread->title);
     }
 
@@ -35,7 +35,7 @@ class ReadThreadsTest extends BaseTestCase
         $thread = create(Thread::class);
         $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
-        $this->get(route('threads.show', ['id' => $thread->id]))
+        $this->get($thread->path())
             ->assertSeeText($reply->body);
     }
 }
