@@ -21,6 +21,16 @@
                         {{csrf_field()}}
 
                         <div class="form-group">
+                            <label for="channel_id">Channel</label>
+                            <select name="channel_id" id="channel_id" class="form-control">
+                                <option value="">Select</option>
+                                @foreach($channels as $channel)
+                                    <option value="{{$channel->id}}">{{$channel->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="body">Title</label>
                             <input type="text" name="title" id="title" class="form-control">
                         </div>
