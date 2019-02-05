@@ -20,8 +20,9 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 // threads
+Route::get('/threads/{channel?}','ThreadsController@index')->name('threads.index');
 Route::post('/threads/{thread}/replies', 'RepliesController@store')->name('replies.store');
 Route::get('/threads/{channel}/{thread}', 'ThreadsController@show')->name('threads.show');
 Route::resource('threads', 'ThreadsController')->only([
-    'index', 'create', 'store', 'edit', 'update', 'destroy'
+    'create', 'store', 'edit', 'update', 'destroy'
 ]);
