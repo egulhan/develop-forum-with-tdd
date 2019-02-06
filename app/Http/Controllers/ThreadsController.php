@@ -38,9 +38,7 @@ class ThreadsController extends Controller
      */
     public function create()
     {
-        $channels = Channel::all();
-
-        return view('threads.create', compact('channels'));
+        return view('threads.create');
     }
 
     /**

@@ -36,7 +36,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#">Action</a>
-                    @foreach(\App\Channel::all() as $channel)
+                    @foreach($channels as $channel)
                         <a class="dropdown-item"
                            href="{{route('threads.index',['channel'=>$channel->slug])}}">{{$channel->name}}</a>
                     @endforeach
