@@ -38,4 +38,24 @@ class ReadThreadsTest extends BaseTestCase
         $this->get($thread->path())
             ->assertSeeText($reply->body);
     }
+
+    /** @test */
+    public function threads_can_be_filtered_by_username()
+    {
+        $this->signIn();
+
+        // GIVEN a thread created by the user and a thread not created by him
+        $threadByUser = factory(Thread::class)->create([
+            'user_id' => auth()->id()
+        ]);
+        $threadNotByUser = factory(Thread::class)->create();
+
+        // WHEN filter by his username
+        // THEN
+        $url = route('threads.index') . '?by=' . auth()->user()->name;
+        $this->get($url)
+            // filtered threads should belong to him
+            ->assertSeeText($threadByUser->title)
+            ->assertDontSeeText($threadNotByUser->title);
+    }
 }
