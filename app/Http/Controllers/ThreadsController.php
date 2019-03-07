@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Filters\Filters;
+use App\Filters\ThreadFilters;
 use App\Thread;
 use App\User;
 use Dotenv\Exception\ValidationException;
@@ -19,9 +21,10 @@ class ThreadsController extends Controller
      * Display a listing of the resource.
      *
      * @param Channel $channel
+     * @param ThreadFilters $filters
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel)
+    public function index(Channel $channel, ThreadFilters $filters)
     {
         if ($channel->exists) {
             $threads = $channel->threads()->latest();
@@ -29,12 +32,8 @@ class ThreadsController extends Controller
             $threads = Thread::latest();
         }
 
-        if ($userName = request()->get('by')) {
-            $filterUser = User::where('name', $userName)->firstOrFail();
-            $threads->where('user_id', $filterUser->id);
-        }
-
-        $threads = $threads->get();
+        $threads = $threads->filter($filters)
+            ->get();
 
         return view('threads.index', compact('threads'));
     }

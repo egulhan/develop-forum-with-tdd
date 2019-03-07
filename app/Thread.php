@@ -2,10 +2,15 @@
 
 namespace App;
 
+use App\Filters\Filters;
+use App\Filters\ThreadFilters;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    use Filterable;
+
     protected $fillable = ['user_id', 'channel_id', 'title', 'body'];
 
     public function replies()
