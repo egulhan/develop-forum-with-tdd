@@ -1,5 +1,7 @@
 <div class="card">
-    <div class="card-header">{{$title}}</div>
+    @if(isset($title))
+        <div class="card-header">{{$title}}</div>
+    @endif
 
     <div class="card-body">
         <div class="body">

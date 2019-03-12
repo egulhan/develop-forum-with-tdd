@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-8">
                 @component('components.card')
                     @slot('title')
@@ -13,10 +13,8 @@
                         {{$thread->body}}
                     @endslot
                 @endcomponent
-            </div>
 
-            @auth
-                <div class="col-md-8" style="margin-top:10px;">
+                @auth
                     @component('components.card',['title'=>'Reply'])
 
                         @if($errors->any())
@@ -40,19 +38,36 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     @endcomponent
-                </div>
-            @endauth
+                @endauth
 
-            @guest
-                <div class="col-md-8 text-center" style="margin-top:10px;padding: 30px;">
-                    Please <a href="{{route('login')}}">login</a> to add comment
+                @guest
+                    <div class="text-center" style="margin-top:10px;padding: 30px;">
+                        Please <a href="{{route('login')}}">login</a> to add comment
+                    </div>
+                @endguest
+
+                @foreach($replies as $reply)
+                    @include('threads.reply')
+                @endforeach
+
+                <div style="margin-top:15px;">
+                    {{$replies->links()}}
                 </div>
-            @endguest
+            </div>
+
+            <div class="col-md-4">
+                @component('components.card')
+                    @slot('body')
+                        <ul>
+                            <li>Published {{$thread->created_at->diffForHumans()}}</li>
+                            <li>Created by <a href="#">{{$thread->owner->name}}</a></li>
+                            <li>It
+                                has {{$thread->replies()->count()}} {{str_plural('comment',$thread->replies()->count())}}</li>
+                        </ul>
+                    @endslot
+                @endcomponent
+            </div>
 
         </div>
-
-        @foreach($thread->replies as $reply)
-            @include('threads.reply')
-        @endforeach
     </div>
 @endsection

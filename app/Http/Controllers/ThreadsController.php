@@ -81,11 +81,8 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
-        $thread->load(['replies' => function ($query) {
-            return $query->latest();
-        }]);
-
-        return view('threads.show', compact('thread'));
+        $replies = $thread->replies()->latest()->paginate(5);
+        return view('threads.show', compact('thread', 'replies'));
     }
 
     /**
