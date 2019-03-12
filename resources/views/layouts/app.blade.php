@@ -28,6 +28,7 @@
             </a>
 
             <a class="navbar-brand" href="{{ route('threads.index') }}">Threads</a>
+            <a class="navbar-brand" href="{{ route('threads.create') }}">New Thread</a>
 
             <!-- channels -->
             <div class="dropdown">
