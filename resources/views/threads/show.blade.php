@@ -61,8 +61,8 @@
                         <ul>
                             <li>Published {{$thread->created_at->diffForHumans()}}</li>
                             <li>Created by <a href="#">{{$thread->owner->name}}</a></li>
-                            <li>It
-                                has {{$thread->replies()->count()}} {{str_plural('comment',$thread->replies()->count())}}</li>
+                            <?php $commentsCount = $thread->replies()->count(); ?>
+                            <li>It has {{$commentsCount}} {{str_plural('comment',$commentsCount)}}</li>
                         </ul>
                     @endslot
                 @endcomponent
