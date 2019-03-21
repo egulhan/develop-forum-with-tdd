@@ -58,4 +58,24 @@ class ReadThreadsTest extends BaseTestCase
             ->assertSeeText($threadByUser->title)
             ->assertDontSeeText($threadNotByUser->title);
     }
+
+    /** @test */
+    public function threads_can_be_filtered_by_popularity()
+    {
+        // GIVEN create threads with 1 reply, 3 replies, 2 replies
+        $threadWithOneReply = create(Thread::class);
+        create(Reply::class, ['thread_id' => $threadWithOneReply->id]);
+
+        $threadWithThreeReplies = create(Thread::class);
+        create(Reply::class, ['thread_id' => $threadWithThreeReplies->id], 3);
+
+        $threadWithTwoReplies = create(Thread::class);
+        create(Reply::class, ['thread_id' => $threadWithTwoReplies->id], 2);
+
+        // WHEN user filter threads by popularity
+        $response = $this->getJson(route('threads.index') . '?popular=1')->json();
+
+        // THEN they should be returned from most replies to least
+        $this->assertEquals([3, 2, 1], array_column($response, 'replies_count'));
+    }
 }
