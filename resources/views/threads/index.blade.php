@@ -11,7 +11,14 @@
                     <div class="card-body">
                         @foreach($threads as $thread)
                             <article>
-                                <h4><a href="{{$thread->path()}}">{{$thread->title}}</a> (reply count: {{$thread->replies_count}})</h4>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <h4><a href="{{$thread->path()}}">{{$thread->title}}</a></h4>
+                                    </div>
+                                    <div class="col-md-2">
+                                        {{$thread->replies_count.' '.str_plural('reply',$thread->replies_count)}}
+                                    </div>
+                                </div>
                                 <div class="body">{{$thread->body}}</div>
                             </article>
                             <hr>
