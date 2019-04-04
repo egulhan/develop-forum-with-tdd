@@ -28,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // debug bar at local
+        if($this->app->isLocal()){
+            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
     }
 }
